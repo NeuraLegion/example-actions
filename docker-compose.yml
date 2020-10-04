@@ -6,7 +6,7 @@ services:
     image: neuralegion/repeater:latest
     restart: always
     environment:
-      REPEATER_TOKEN: plhzeup.nexp.0lhtc7ib6pogcibaqprz6gz994sltelu
-      REPEATER_AGENT: b5b03145-2f30-4002-bab1-8f1b58df4bf9
+      REPEATER_TOKEN: sbgav6x.nexp.ghx3r1soa3cumx0o2aqr00mjhhgjjdke
+pye5XsQtjZDo8ESFn2fnH6
+      REPEATER_AGENT: 1f7493f3-0233-4ac4-a4b9-9a7273f4fcae
       DEBUG: nexploit-cli
-      
