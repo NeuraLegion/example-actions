@@ -23,3 +23,5 @@ jobs:
           echo "::set-env name=scan_id::$SCAN_ID"
       - name: Get the output scan url
         run: echo "The scan was started with ID ${{ steps.start.outputs.scan_id }}"
+      - name: Wait for issues
+        run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue --interval 3000 --timeout 1h ${{ steps.start.outputs.scan_id }}
