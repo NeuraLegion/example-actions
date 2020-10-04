@@ -19,4 +19,7 @@ jobs:
           sudo npm install -g @neuralegion/nexploit-cli
       - name: Start Nexploit Scan 🏁
         run: |
-          nexploit-cli scan:run --name Juice-Shop --crawler https://juice-shop.herokuapp.com --token ${{ secrets.NEXPLOIT_TOKEN }}
+          SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler https://juice-shop.herokuapp.com --token ${{ secrets.NEXPLOIT_TOKEN }})
+          echo "::set-env name=scan_id::$SCAN_ID"
+      - name: Get the output scan url
+        run: echo "The scan was started with ID ${{ steps.start.outputs.scan_id }}"
