@@ -1,0 +1,12 @@
+version: '3'
+services:
+  juiceshop.local:
+    image: bkimminich/juice-shop
+  repeater:
+    image: neuralegion/repeater:latest
+    restart: always
+    environment:
+      REPEATER_TOKEN: plhzeup.nexp.0lhtc7ib6pogcibaqprz6gz994sltelu
+      REPEATER_AGENT: b5b03145-2f30-4002-bab1-8f1b58df4bf9
+      DEBUG: nexploit-cli
+      
