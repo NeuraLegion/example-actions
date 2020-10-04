@@ -19,14 +19,4 @@ jobs:
           sudo npm install -g @neuralegion/nexploit-cli
       - name: Start Nexploit Scan 🏁
         run: |
-          nexploit-cli scan:run --name Juice-Shop --crawler ["juice-shop.herokuapp.com/"] --token ${{ secrets.NEXPLOIT_TOKEN }}
-      - name: Get the output scan url
-        run: echo "The scan was started on ${{ steps.start.outputs.url }}"
-      - name: Wait for any issues ⏳
-        id: wait
-        uses: NeuraLegion/wait-for@master
-        with:
-          api_token: ${{ secrets.NEXPLOIT_TOKEN }}
-          scan: ${{ steps.start.outputs.id }}
-          wait_for: any
-          timeout: 55
+          nexploit-cli scan:run --name Juice-Shop --crawler https://juice-shop.herokuapp.com --token ${{ secrets.NEXPLOIT_TOKEN }}
