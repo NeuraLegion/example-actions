@@ -27,8 +27,8 @@ jobs:
         run: |
           SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler https://juice-shop.herokuapp.com --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo $SCAN_ID
-          echo "::set-env name=scan_id::$SCAN_ID"
+          echo "::set-env name=SCAN_ID::$SCAN_ID"
       - name: Get the output scan url
-        run: echo ${{ steps.start.outputs.scan_id }}
+        run: echo "Scan was started with ID ${{ env.SCAN_ID }}"
       - name: Wait for issues
-        run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue --interval 3000 --timeout 1h ${{ steps.start.outputs.scan_id }}
+        run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue --interval 3000 --timeout 1h ${{ env.SCAN_ID }}
