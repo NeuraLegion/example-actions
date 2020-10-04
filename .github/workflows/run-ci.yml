@@ -27,7 +27,6 @@ jobs:
             [ "https://juice-shop.herokuapp.com" ]
           hosts_filter: |
             [ ]
-          wait_for: on_high
       - name: Get the output scan url
         run: echo "The scan was started on ${{ steps.start.outputs.url }}"
       - name: Wait for any issues ⏳
