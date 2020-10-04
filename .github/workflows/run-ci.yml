@@ -25,7 +25,7 @@ jobs:
       - name: Start Nexploit Scan 🏁
         id: start
         run: |
-          SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler https://juice-shop.herokuapp.com --token ${{ secrets.NEXPLOIT_TOKEN }})
+          SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler http://target.local --repeater 1f7493f3-0233-4ac4-a4b9-9a7273f4fcae --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo $SCAN_ID
           echo "::set-env name=SCAN_ID::$SCAN_ID"
       - name: Get the output scan url
