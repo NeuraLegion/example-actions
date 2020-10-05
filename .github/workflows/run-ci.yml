@@ -32,7 +32,7 @@ jobs:
         run: echo "Scan was started with ID ${{ env.SCAN_ID }}"
       - run: sleep 160s
       - name: Wait for issues
-        run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue ${{ env.SCAN_ID }}
+        run: nexploit-cli scan:polling --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue ${{ env.SCAN_ID }}
       - name: Stop Scan
         if: ${{ always() }}
-        run: nexploit-cli scan:stop --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} ${{ env.SCAN_ID }}
+        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} ${{ env.SCAN_ID }}
