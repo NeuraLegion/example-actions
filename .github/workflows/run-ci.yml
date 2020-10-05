@@ -31,6 +31,6 @@ jobs:
       - name: Get the output scan url
         run: echo "Scan was started with ID ${{ env.SCAN_ID }}"
       - name: Wait for issues
-        run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue --interval 20s --timeout 1h ${{ env.SCAN_ID }}
+        run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue ${{ env.SCAN_ID }}
       - name: Stop Scan
         run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} ${{ env.SCAN_ID }}
