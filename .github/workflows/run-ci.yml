@@ -25,6 +25,7 @@ jobs:
       - name: Docker-Compose
         run: |
           sudo docker-compose --env-file=.env up -d
+          sudo docker-compose config
       - run: sleep 10s
       - name: Start Nexploit Scan 🏁
         id: start
