@@ -33,4 +33,5 @@ jobs:
       - name: Wait for issues
         run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue ${{ env.SCAN_ID }}
       - name: Stop Scan
+        if: ${{ always() }}
         run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} ${{ env.SCAN_ID }}
