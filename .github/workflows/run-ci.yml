@@ -30,7 +30,7 @@ jobs:
           echo "::set-env name=SCAN_ID::$SCAN_ID"
       - name: Get the output scan url
         run: echo "Scan was started with ID ${{ env.SCAN_ID }}"
-      - run: sleep 80s
+      - run: sleep 160s
       - name: Wait for issues
         run: nexploit-cli scan:polling --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint high_issue ${{ env.SCAN_ID }}
       - name: Stop Scan
