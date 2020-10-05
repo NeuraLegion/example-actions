@@ -20,7 +20,7 @@ jobs:
           sudo npm install -g @neuralegion/nexploit-cli
       - name: Save environment variables
         run: |
-          echo "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
+          printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
           cat .env
       - name: Docker-Compose
         run: |
