@@ -30,7 +30,7 @@ jobs:
       - name: Start Nexploit Scan 🏁
         id: start
         run: |
-          SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler http://juiceshop.local --repeater ${{ secrets.REPEATER }} --token ${{ secrets.NEXPLOIT_TOKEN }})
+          SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler http://juiceshop.local:3000 --repeater ${{ secrets.REPEATER }} --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo $SCAN_ID
           echo "::set-env name=SCAN_ID::$SCAN_ID"
       - name: Get the output scan url
