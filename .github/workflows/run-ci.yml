@@ -38,10 +38,14 @@ jobs:
       - name: Start Nexploit Scan 🏁
         id: start
         run: |
+          FILE_ID=$(nexploit-cli archive:upload   \
+            --token ${{ secrets.NEXPLOIT_TOKEN }} \
+            --discard true                        \
+            ./juice-shop.har)
           SCAN_ID=$(nexploit-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens                             \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler http://brokencrystals.local                                    \
+            --archive $FILE_ID                                                            \
             --repeater ${{ secrets.REPEATER }}                                            \
             --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
