@@ -31,15 +31,12 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(nexploit-cli scan:run --name Juice-Shop --crawler http://juiceshop.local:3000 --repeater ${{ secrets.REPEATER }} --token ${{ secrets.NEXPLOIT_TOKEN }})
-          echo $SCAN_ID
-          echo "::set-env name=SCAN_ID::$SCAN_ID"
-          echo "SCAN=$SCAN_ID" >> $GITHUB_ENV
+          echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
         run: |
-          printf "Scan was started with ID https://nexploit.app/scans/${{ env.SCAN_ID }}"
-          printf "ENV value: $SCAN"
+          printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
       - name: Wait for issues ⏳
-        run: nexploit-cli scan:polling --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint medium_issue ${{ env.SCAN_ID }}
+        run: nexploit-cli scan:polling --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint medium_issue $SCAN_ID
       - name: Stop Scan 🛑
         if: ${{ always() }}
-        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} ${{ env.SCAN_ID }}
+        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
