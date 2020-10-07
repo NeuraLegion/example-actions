@@ -36,7 +36,7 @@ jobs:
         run: |
           printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
       - name: Wait for issues ⏳
-        run: nexploit-cli scan:polling --test [xss,dom_xss] --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint medium_issue $SCAN_ID
+        run: nexploit-cli scan:polling --test csrf dom_xss header_security secret_tokens --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint medium_issue $SCAN_ID
       - name: Stop Scan 🛑
         if: ${{ always() }}
         run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
