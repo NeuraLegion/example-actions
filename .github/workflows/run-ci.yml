@@ -37,7 +37,7 @@ jobs:
       - name: Get the output scan url 🔗
         run: |
           printf "Scan was started with ID https://nexploit.app/scans/${{ env.SCAN_ID }}"
-          echo $SCAN
+          printf "ENV value: $SCAN"
       - name: Wait for issues ⏳
         run: nexploit-cli scan:polling --interval 30s --timeout 10m --token ${{ secrets.NEXPLOIT_TOKEN }} --breakpoint medium_issue ${{ env.SCAN_ID }}
       - name: Stop Scan 🛑
