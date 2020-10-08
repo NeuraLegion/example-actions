@@ -1,7 +1,7 @@
 version: '3'
 services:
   juiceshop.local:
-    image: bkimminich/juice-shop
+    image: bkimminich/juice-shop:v12.1.0
   repeater:
     image: neuralegion/repeater:latest
     restart: always
