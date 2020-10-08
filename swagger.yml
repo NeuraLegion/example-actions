@@ -1,7 +1,6 @@
 openapi: 3.0.0
 servers:
-  -
-    url: /b2b/v2
+  - url: http://juiceshop.local:3000/b2b/v2
 info:
   version: 2.0.0
   title: 'NextGen B2B API'
