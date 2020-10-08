@@ -49,7 +49,7 @@ jobs:
             --interval 30s                        \
             --timeout 20m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint high_issue $SCAN_ID
+            --breakpoint medium_issue $SCAN_ID
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
