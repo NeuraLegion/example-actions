@@ -2,7 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+    - main
+    - har-file
+    - swagger
   pull_request:
     branches: [ main ]
 
