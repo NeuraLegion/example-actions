@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-    - main
+    - crawler
     - har-file
     - swagger
   pull_request:
