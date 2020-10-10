@@ -38,7 +38,7 @@ jobs:
             --discard true                        \
             ./juice-shop.har)
           SCAN_ID=$(nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens                             \
+            --test dom_xss                                                                \
             --name "🥤 Juice-Shop for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
             --archive $FILE_ID                                                            \
             --repeater ${{ secrets.REPEATER }}                                            \
