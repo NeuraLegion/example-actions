@@ -6,6 +6,7 @@ on:
     - crawler
     - har-file
     - swagger
+    - idenum-test
   pull_request:
     branches: [ main ]
 
