@@ -1,7 +1,9 @@
 version: '3'
 services:
-  juiceshop.local:
-    image: bkimminich/juice-shop:v11.1.3
+  idenum.local:
+    image: neuralegion/idenum
+    ports:  
+      - "80:80"
   repeater:
     image: neuralegion/repeater:latest
     restart: always
