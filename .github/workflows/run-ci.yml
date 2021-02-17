@@ -3,15 +3,13 @@ name: CI
 on:
   push:
     branches:
-    - crawler
     - har-file
-    - swagger
   pull_request:
     branches: [ main ]
 
 jobs:
   start_and_wait_scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: A job to run a Nexploit scan
     steps:
       - uses: actions/checkout@v2
@@ -19,8 +17,9 @@ jobs:
           sudo apt update
           sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
+          sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
           sudo apt-get install nodejs npm
-          sudo npm install -g @neuralegion/nexploit-cli
+          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Save environment variables
         run: |
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
@@ -53,7 +52,7 @@ jobs:
             --interval 30s                        \
             --timeout 20m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint medium_issue $SCAN_ID
+            --breakpoint high_issue $SCAN_ID
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
