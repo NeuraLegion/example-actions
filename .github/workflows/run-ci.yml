@@ -46,7 +46,7 @@ jobs:
       - name: Get the output scan url 🔗
         run: |
           printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
-      - name: Wait for issues ⏳
+      - name: wait for issues ⏳
         run: |
           nexploit-cli scan:polling               \
             --interval 30s                        \
