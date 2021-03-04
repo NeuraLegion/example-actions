@@ -10,7 +10,7 @@ on:
 jobs:
   start_and_wait_scan:
     runs-on: ubuntu-18.04
-    name: A job to run a Nexploit scan
+    name: A job to run a Nexploit scansss
     steps:
       - uses: actions/checkout@v2
       - run: |
