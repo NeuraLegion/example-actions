@@ -1,11 +1,35 @@
 version: '3'
 services:
-  juiceshop.local:
-    image: bkimminich/juice-shop:v11.1.3
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: bc
+      POSTGRES_USER: bc
+      POSTGRES_PASSWORD: bc
+    volumes:
+    - ./pg.sql:/docker-entrypoint-initdb.d/pg.sql
+  nodejs:
+    image: neuralegion/brokencrystals
+    container_name: nodejs
+    restart: always
+    logging:
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - db
+  brokencrystals.local:
+    image: neuralegion/brokencrystals-proxy-http
+    restart: always
+    ports:
+      - "8000:3000"
+    depends_on:
+      - nodejs
   repeater:
     image: neuralegion/repeater:latest
     restart: always
     environment:
-      REPEATER_TOKEN: ${NEXPLOIT_TOKEN}
-      REPEATER_AGENT: ${REPEATER}
+      REPEATER_TOKEN: $NEXPLOIT_TOKEN
+      REPEATER_AGENT: $REPEATER
       DEBUG: nexploit-cli

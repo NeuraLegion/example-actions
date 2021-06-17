@@ -6,6 +6,7 @@ on:
     - crawler
     - har-file
     - swagger
+    - brokencrystals
   pull_request:
     branches: [ main ]
 
@@ -30,17 +31,17 @@ jobs:
         run: |
           sudo docker-compose --env-file=.env up -d
           sudo docker-compose config
-      - run: sleep 10s
+      - run: sleep 80s
+      - run: sudo docker-compose logs
       - name: Start Nexploit Scan 🏁
         id: start
         run: |
-          SCAN_ID=$(nexploit-cli scan:run                                                 \
+          nexploit-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens                             \
-            --name "🥤 Juice-Shop for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler http://juiceshop.local:3000                                         \
+            --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
+            --crawler http://brokencrystals.local:3000                                    \
             --repeater ${{ secrets.REPEATER }}                                            \
-            --token ${{ secrets.NEXPLOIT_TOKEN }})
-          echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
+            --token ${{ secrets.NEXPLOIT_TOKEN }}
       - name: Get the output scan url 🔗
         run: |
           printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
