@@ -10,7 +10,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: 30 * * * THU
+    - cron: "0 0 * * THU"
 
 jobs:
   start_and_wait_scan:
