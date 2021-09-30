@@ -41,8 +41,8 @@ jobs:
           SCAN_ID=$(nexploit-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens                             \
             --name "DVWA" \
-            --crawler http://dvwa2.neuralegion.com/login.php                                    \
-            --repeater ${{ secrets.REPEATER }}                                            \
+            --crawler http://brokencrystals.com                                   \
+                                                       \
             --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
