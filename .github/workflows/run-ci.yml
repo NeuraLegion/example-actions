@@ -41,7 +41,7 @@ jobs:
           SCAN_ID=$(nexploit-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens                             \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler https://brokencrystals.com                                  \                                          \
+            --crawler http://dvwa2.neuralegion.com/                                 \                                          \
             --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
@@ -51,7 +51,7 @@ jobs:
         run: |
           nexploit-cli scan:polling               \
             --interval 30s                        \
-            --timeout 4m                         \
+            --timeout 10m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
             --breakpoint high_issue $SCAN_ID
       - name: Stop Scan 🛑
