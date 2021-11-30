@@ -30,7 +30,7 @@ jobs:
           environment:
             DEBIAN_FRONTEND: 'noninteractive'
           command: |
-            apt-get -y install nodejs-dev node-gyp libssl1.0-dev
+            apt-get -y install nodejs-dev node-gyp libssl1.1-dev
             apt-get -y install nodejs npm
             npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
             
