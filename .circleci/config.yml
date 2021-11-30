@@ -18,14 +18,17 @@ jobs:
           name: Install Docker Compose
           environment:
             COMPOSE_VERSION: '1.26.0'
+            DEBIAN_FRONTEND: 'noninteractive'
           command: |
-            apt update
+            apt update -y
             apt-get install curl
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
             mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
           name: Install NodeJS and nexploit-cli
+          environment:
+            DEBIAN_FRONTEND: 'noninteractive'
           command: |
             apt-get install nodejs-dev node-gyp libssl1.0-dev
             apt-get install nodejs npm
