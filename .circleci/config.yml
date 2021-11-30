@@ -33,6 +33,32 @@ jobs:
             apt-get -y install libnode-dev node-gyp libssl-dev
             apt-get -y install nodejs npm
             npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
+      - run:
+          name: Save ENV vars for docker-compose
+          command: |
+            printf "NEXPLOIT_TOKEN=$NEXPLOIT_TOKEN\nREPEATER=$REPEATER\n" > .env
+            cat .env
+      - run:
+          name: Docker-Compose
+          command: |
+            docker-compose --env-file=.env up -d
+            docker-compose config
+      - run:
+          name: sleep and compose
+          command: |
+            sleep 30s
+            docker-compose logs
+      - run:
+          name: Start Nexploit Scan 🏁
+          command: |
+            SCAN_ID=$(nexploit-cli scan:run                                                 \
+            --test csrf dom_xss header_security secret_tokens open_buckets                 \
+            --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
+            --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
+            --repeater $REPEATER                                           \
+            --token $NEXPLOIT_TOKEN)
+            echo "SCAN_ID=$SCAN_ID" >> $BASH_ENV
+          
             
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
