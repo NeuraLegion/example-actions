@@ -15,21 +15,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '1.26.0'
-            DEBIAN_FRONTEND: 'noninteractive'
-          command: |
-            apt -y update
-            apt-get -y install apt-transport-https ca-certificates curl software-properties-common
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-            add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-            apt -y install docker-ce
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            mv ~/docker-compose /usr/local/bin/docker-compose
-      - setup_remote_docker
-      - run:
           name: Install NodeJS and nexploit-cli
           environment:
             DEBIAN_FRONTEND: 'noninteractive'
@@ -38,28 +23,14 @@ jobs:
             apt-get -y install nodejs npm
             npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - run:
-          name: Save ENV vars for docker-compose
-          command: |
-            printf "NEXPLOIT_TOKEN=$NEXPLOIT_TOKEN\nREPEATER=$REPEATER\n" > .env
-            cat .env
-      - run:
-          name: Docker-Compose
-          command: |
-            docker-compose --env-file=.env up -d
-            docker-compose config
-      - run:
-          name: sleep and compose
-          command: |
-            sleep 30s
-            docker-compose logs
-      - run:
           name: Start Nexploit Scan 🏁
           command: |
-            nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens open_buckets                 \
-            --name "💎 BrokenCrystals for a CircleCI" \
+            SCAN_ID=$(nexploit-cli scan:run                                                 \
+            --test csrf dom_xss xss header_security secret_tokens open_buckets                 \
+            --name "💎 BrokenCrystals for CircleCI" \
             --crawler https://brokencrystals.com/  \
-            --token $NEXPLOIT_TOKEN
+            --token $NEXPLOIT_TOKEN)
+            echo 'export SCAN_ID="$SCAN_ID"' >> $BASH_ENV
       - run:
           name: Output scan URL
           command: |
