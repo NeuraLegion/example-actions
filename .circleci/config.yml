@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Output scan URL
           command: |
-            printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
+            printf "Scan was started with ID https://nexploit.app/scans/${SCAN_ID}"
       - run:
           name: Wait for issues ⏳
           command: |
@@ -45,7 +45,7 @@ jobs:
             --interval 30s                        \
             --timeout 10m                         \
             --token $NEXPLOIT_TOKEN               \
-            --breakpoint high_issue $SCAN_ID
+            --breakpoint high_issue ${SCAN_ID}
           
             
 # Invoke jobs via workflows
