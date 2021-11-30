@@ -20,8 +20,8 @@ jobs:
             COMPOSE_VERSION: '1.26.0'
             DEBIAN_FRONTEND: 'noninteractive'
           command: |
-            apt update -y
-            apt-get install curl
+            apt -y update
+            apt-get -y install curl
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
             mv ~/docker-compose /usr/local/bin/docker-compose
@@ -30,8 +30,8 @@ jobs:
           environment:
             DEBIAN_FRONTEND: 'noninteractive'
           command: |
-            apt-get install nodejs-dev node-gyp libssl1.0-dev
-            apt-get install nodejs npm
+            apt-get -y install nodejs-dev node-gyp libssl1.0-dev
+            apt-get -y install nodejs npm
             npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
             
 # Invoke jobs via workflows
