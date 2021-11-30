@@ -55,12 +55,12 @@ jobs:
       - run:
           name: Start Nexploit Scan 🏁
           command: |
-            SCAN_ID=$(nexploit-cli scan:run                                                 \
+            nexploit-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens open_buckets                 \
             --name "💎 BrokenCrystals for a CircleCI" \
             --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
             --repeater $REPEATER                                           \
-            --token $NEXPLOIT_TOKEN)
+            --token $NEXPLOIT_TOKEN
             echo "SCAN_ID=$SCAN_ID" >> $BASH_ENV
       - run:
           name: Output scan URL
