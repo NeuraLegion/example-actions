@@ -31,7 +31,9 @@ jobs:
             --name "💎 BrokenCrystals for CircleCI" \
             --crawler https://brokencrystals.com/  \
             --token $NEXPLOIT_TOKEN)
+            printf "Scan id is: $SCAN_ID"
             echo 'export SCAN_ID="$SCAN_ID"' >> $BASH_ENV
+            
       - run:
           name: Output scan URL
           command: |
