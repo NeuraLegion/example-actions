@@ -40,7 +40,7 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens open_buckets                 \
+            --test header_security                                                          \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
             --crawler http://dvga.neuralegion.com:5000/                                     \
             --repeater ${{ secrets.REPEATER }}                                            \
@@ -55,7 +55,7 @@ jobs:
             --interval 30s                        \
             --timeout 10m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint any_issue $SCAN_ID
+            --breakpoint any $SCAN_ID
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
