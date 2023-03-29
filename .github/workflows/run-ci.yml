@@ -7,55 +7,37 @@ on:
       - har-file
       - swagger
       - brokencrystals
+      - codescan
   pull_request:
     branches: [main]
   schedule:
     - cron: "0 0 * * THU"
 
 jobs:
-  start_and_wait_scan:
-    runs-on: ubuntu-18.04
-    name: A job to run a Nexploit scan
+  wait_for:
+    name: Wait for any issues, gh-int + code_scanning_alerts on
+    runs-on: ubuntu-latest
+    container: node:16
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          sudo apt update
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
-          sudo apt-get install nodejs npm
-          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
-      - name: Save environment variables
-        run: |
-          printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
-          cat .env
-      - name: Docker-Compose
-        run: |
-          sudo docker-compose --env-file=.env up -d
-          sudo docker-compose config
-      - run: sleep 30s
-      - run: sudo docker-compose logs
-      - name: Start Nexploit Scan 🏁
+      - name: Scan Start
         id: start
-        run: |
-          SCAN_ID=$(nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens open_buckets                 \
-            --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
-            --repeater ${{ secrets.REPEATER }}                                            \
-            --token ${{ secrets.NEXPLOIT_TOKEN }})
-          echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
-      - name: Get the output scan url 🔗
-        run: |
-          printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
-      - name: Wait for issues ⏳
-        run: |
-          nexploit-cli scan:polling               \
-            --interval 30s                        \
-            --timeout 10m                         \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint high_issue $SCAN_ID
-      - name: Stop Scan 🛑
-        continue-on-error: true
-        if: ${{ always() }}
-        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
+        uses: NeuraLegion/run-scan@release
+        with:
+          api_token: ${{ secrets.BRIGHT_TOKEN}}
+          hostname: app.brightsec.com
+          name: Bright Scan - ${{ github.sha }}
+          discovery_types: |
+            [ "crawler" ]
+          crawler_urls: |
+            [ "https://brokencrystals.com" ]
+      - name: Wait for breakpoint
+        id: wait
+        uses: NeuraLegion/wait-for@release
+        with:
+          api_token:  ${{ secrets.BRIGHT_TOKEN }}
+          hostname: app.brightsec.com
+          scan: ${{ steps.start.outputs.id }}
+          wait_for: any
+          code_scanning_alerts: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          timeout: 600
