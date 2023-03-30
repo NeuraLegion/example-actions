@@ -41,3 +41,10 @@ jobs:
           code_scanning_alerts: true
           github_token: ${{ secrets.KEY_GITHUB }}
           timeout: 600
+      - name: 🛑 Stop the scan
+        if: ${{ always() }}
+        id: stop
+        uses: NeuraLegion/stop-scan@release
+        with:
+          api_token: ${{ secrets.BRIGHT_TOKEN }}
+          scan: ${{ steps.start.outputs.id }}
