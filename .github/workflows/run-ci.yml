@@ -9,7 +9,7 @@ on:
       - brokencrystals
       - codescan
   pull_request:
-    branches: [main]
+    branches: [codescan]
   schedule:
     - cron: "0 0 * * THU"
 
@@ -37,7 +37,7 @@ jobs:
           api_token:  ${{ secrets.BRIGHT_TOKEN }}
           hostname: app.brightsec.com
           scan: ${{ steps.start.outputs.id }}
-          wait_for: any
+          wait_for: high
           code_scanning_alerts: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.KEY_GITHUB }}
           timeout: 600
